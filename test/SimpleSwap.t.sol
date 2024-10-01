@@ -4,7 +4,7 @@ pragma abicoder v2;
 
 import "../src/SimpleSwap.sol";
 import "v3-periphery/interfaces/ISwapRouter.sol";
-import "v3-periphery/interfaces/external/IWETH9.sol";
+import "../src/test/IWETH9.sol";
 import "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -22,15 +22,28 @@ contract SimpleSwapTest is Test {
         simpleSwap = new SimpleSwap(ISwapRouter(SwapRouterAddress));
         WETH = IWETH9(WETH_ADDRESS);
         DAI = IERC20(DAI_ADDRESS);
+
+        WETH.deposit{value: 10 ether}();
     }
 
-    function testSwap() public {
+    function testSwapInputSingle() public {
         WETH.approve(address(simpleSwap), 1 ether);
         uint256 amountIn = 0.1 ether;
 
         simpleSwap.swapWETHForDAI(amountIn);
 
         uint256 balance = DAI.balanceOf(address(this));
-        assertGt(balance, 0);    
+        assertGt(balance, 0);
+    }
+
+    function testSwapOutputSingle() public {
+        WETH.approve(address(simpleSwap), 1 ether);
+        uint256 amountOut = 200 ether;
+        uint256 amountInMaximum = 1 ether; // 1 WETH = 2600 DAI
+
+        simpleSwap.swapExactOutputSingle(amountOut, amountInMaximum);
+
+        uint256 balance = DAI.balanceOf(address(this));
+        assertGt(balance, 0);
     }
 }

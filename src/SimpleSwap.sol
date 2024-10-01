@@ -4,7 +4,7 @@ pragma abicoder v2;
 
 import "v3-periphery/interfaces/ISwapRouter.sol";
 import "@uniswap/v3-periphery/libraries/TransferHelper.sol";
-import "@uniswap/v3-periphery/interfaces/external/IWETH9.sol";
+import "./test/IWETH9.sol";
 
 contract SimpleSwap {
     ISwapRouter public immutable swapRouter;
