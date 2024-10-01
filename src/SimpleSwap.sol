@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-pragma solidity ^0.7.0;
+pragma solidity 0.8.21;
 pragma abicoder v2;
 
 import "v3-periphery/interfaces/ISwapRouter.sol";
 import "@uniswap/v3-periphery/libraries/TransferHelper.sol";
+import "@uniswap/v3-periphery/interfaces/external/IWETH9.sol";
 
 contract SimpleSwap {
     ISwapRouter public immutable swapRouter;
